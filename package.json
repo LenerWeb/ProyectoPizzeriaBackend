@@ -1,0 +1,28 @@
+{
+  "name": "pizzeria",
+  "version": "1.0.0",
+  "description": "Backend para venta de pizzas",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node ./src/index.js",
+    "start:dev": "dotenv -e .env -- nodemon ./src/index.js"
+  },
+  "keywords": [
+    "pizzas",
+    "nodejs",
+    "backend",
+    "express"
+  ],
+  "author": "Lener Zavaleta",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.15",
+    "dotenv-cli": "^6.0.0",
+    "nodemon": "^2.0.20",
+    "prisma": "^4.8.0"
+  }
+}
