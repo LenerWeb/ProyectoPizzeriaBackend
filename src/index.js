@@ -1,7 +1,7 @@
 import express, { json } from "express";
 import { productosRouter } from "./routes/productos.routes.js";
 import { clientesRouter } from "./routes/cliente.routes.js";
-import { Sql, sqltag } from "@prisma/client/runtime/index.js";
+
 
 const servidor = express()
 

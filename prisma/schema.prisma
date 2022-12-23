@@ -28,7 +28,7 @@ model Cliente {
   apellido        String           @db.VarChar(50)
   dni             String           @unique @db.VarChar(8)
   email           String           @db.VarChar(100)
-  password        String           @db.VarChar(50)
+  password        String           
   direccion       String           @db.VarChar(100)
   distrito        String           @db.VarChar(50)
   createdAt       DateTime         @default(now()) @map("created_at")
