@@ -6,6 +6,57 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+model Producto {
+  id             Int     @id @default(autoincrement())
+  nombre         String  @db.VarChar(50)
+  precio         Float
+  disponibilidad Boolean @default(true)
+  cantidad       Int     @default(10)
+
+  detalles DetallePedido[]
+
+  @@map("productos")
+}
+
+model Cliente {
+  id              Int              @id @default(autoincrement())
+  nombre          String           @db.VarChar(50)
+  apellido        String           @db.VarChar(50)
+  dni             String           @unique @db.VarChar(8)
+  email           String           @db.VarChar(100)
+  password        String           @db.VarChar(50)
+  direccion       String           @db.VarChar(100)
+  distrito        String           @db.VarChar(50)
+  createdAt       DateTime         @default(now()) @map("created_at")
+  cabecerapedidos CabeceraPedido[]
+
+  @@map("clientes")
+}
+
+model CabeceraPedido {
+  id           Int      @id @default(autoincrement())
+  clienteId    Int      @map("cliente_id")
+  fechaEmision DateTime @map("fecha_emision")
+
+  cliente  Cliente         @relation(fields: [clienteId], references: [id])
+  detalles DetallePedido[]
+
+  @@map("cabecera_pedidos")
+}
+
+model DetallePedido {
+  id         Int   @id @default(autoincrement())
+  productoId Int   @map("producto_id")
+  cantidad   Int
+  totalVenta Float @map("total_venta")
+  cabeceraId Int   @map("cabecera_id")
+
+  producto Producto       @relation(fields: [productoId], references: [id])
+  pedido   CabeceraPedido @relation(fields: [cabeceraId], references: [id])
+
+  @@map("detalle_pedidos")
 }
