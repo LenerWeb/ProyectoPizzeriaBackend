@@ -4,9 +4,18 @@ export const crearRegistro = async (req, res) => {
     const data = req.body;
     console.log(data);
 
-    res.status(201).json({
-        message: "Cliente creado exitosamente",
-    });
+    try {
+        const nuevoCliente = await Prisma.cliente.create({data});
+        console.log(nuevoCliente);
+        res.status(201).json({
+            message: "Cliente creado exitosamente",
+        });
+    } catch (error) {
+        res.status(500).json({
+            message:"Error al crear el cliente",
+            content:error.message,
+        });
+    }
 
 
 }
