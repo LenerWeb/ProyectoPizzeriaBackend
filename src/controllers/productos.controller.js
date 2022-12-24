@@ -18,3 +18,18 @@ export const crearPizza = async (req, res) =>{
         });
     }
 };
+
+export const listarPizzas = async (req, res) => {
+    try {
+        const pizzas = await Prisma.producto.findMany()
+        return res.status(200).json({
+            message: "Lista de Pizzas",
+            content: pizzas,
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message: "Error en el servidor",
+            error: error.message,
+        });
+    }
+}
