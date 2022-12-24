@@ -108,12 +108,13 @@ export const listarCliente = async (req, res) => {
 };
 
 export const actualizarCliente = async(req, res) => {
-    const { id } = req.params;
-    const data = req.body;
+    // const { id } = req.params;
+    const data = req.user;
+    const newData = req.body
     try {
         const findCliente = await Prisma.cliente.findUnique({
             where: {
-                id: Number(id),
+                dni: String(data.dni),
             },
         });
         if (!findCliente){
@@ -124,18 +125,49 @@ export const actualizarCliente = async(req, res) => {
 
         const cliente = await Prisma.cliente.update({
             where: { 
-                id: Number(id),
+                dni: String(data.dni),
             },
             data: {
-                nombre: data.nombre,
-                apellido: data.apellido,
-                dni: data.dni,
-                email: data.correo,
+                
+                nombre: newData.nombre,
+                apellido: newData.apellido,
+                email: newData.email,
+                direccion: newData.direccion,  
+                distrito: newData.distrito,
             },
         })
+        console.log("cliente", cliente)
+
         return res.status(201).json({
             message:"Cliente actualizado",
             content: cliente,
+        });
+    } catch (error) {
+        return res.status(500).json({
+            message:"Error inesperado",
+            error: error.message,
+        });
+    }
+}
+
+export const eliminarCliente = async(req, res) => {
+    const data = req.body;
+    try {
+        const buscarCliente = await Prisma.cliente.findUnique({
+            where: {
+                dni: String(data.dni),
+            },
+        });
+        console.log("buscar", buscarCliente)
+        const cliente = await Prisma.cliente.delete({
+            where: {
+                dni: String(data.dni),
+            },
+        });
+        console.log("eliminar", cliente)
+
+        return res.status(200).json({
+            message: "Cliente eliminado",
         });
 
     } catch (error) {

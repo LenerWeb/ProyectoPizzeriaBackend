@@ -2,7 +2,7 @@ import jsonwebtoken from "jsonwebtoken";
 import { Prisma } from "../prisma.js";
 
 export const security = async (req, res, next) => {
-    console.log("soy un midleware")
+    console.log("Middleware")
     
     if(!req.headers.authorization){
         return res.status(401).json({
