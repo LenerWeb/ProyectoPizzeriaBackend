@@ -11,6 +11,33 @@ export const crearPedido = async (req, res) =>{
                 detalles: {
                     create: data.detalles,
                 }
+            },
+            select : {
+                id: true,
+                clienteId: true,
+                cliente: {
+                    select:{
+                        nombre: true,
+                        apellido: true,
+                        dni:true,
+                        direccion: true,
+                    }
+                },
+                fechaEmision: true,
+                detalles: {
+                    select: {
+                        id: false,
+                        producto : {
+                            select: {
+                                id: true,
+                                nombre: true,
+                                precio: true,
+                            }
+                        },
+                        cantidad: true,
+                        totalVenta: true,
+                    }
+                }
             }
         });
 
@@ -20,11 +47,53 @@ export const crearPedido = async (req, res) =>{
             message: "Su pedido fue registrado",
             content: pedidos,
         });
-        
 
     } catch (error) {
         return res.status(500).json({
             message:"Error en el servidor",
+            error: error.message,
+        });
+    }
+};
+
+export const listarPedidos = async (req, res) => {
+    try {
+        const pedidos = await Prisma.cabeceraPedido.findMany({
+            select : {
+                id: true,
+                clienteId: true,
+                cliente: {
+                    select:{
+                        nombre: true,
+                        apellido: true,
+                        dni:true,
+                        direccion: true,
+                    }
+                },
+                fechaEmision: true,
+                detalles: {
+                    select: {
+                        id: false,
+                        producto : {
+                            select: {
+                                id: true,
+                                nombre: true,
+                                precio: true,
+                            }
+                        },
+                        cantidad: true,
+                        totalVenta: true,
+                    }
+                }
+            }
+        })
+        return res.status(200).json({
+            message: "Listar pedidos",
+            content: pedidos,
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message: "Error no se pueden ver los pedidos",
             error: error.message,
         });
     }

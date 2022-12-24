@@ -103,7 +103,7 @@ export const listarCliente = async (req, res) => {
         return res.status(500).json({
             message: "Error no se puedes ver clientes",
             error: error.message,
-        })
+        });
     }
 };
 
