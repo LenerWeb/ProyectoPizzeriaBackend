@@ -108,36 +108,28 @@ export const listarCliente = async (req, res) => {
 };
 
 export const actualizarCliente = async(req, res) => {
-    // const { id } = req.params;
-    const data = req.user;
-    const newData = req.body
+    const { id } = req.user;
+    const data = req.body
     try {
         const findCliente = await Prisma.cliente.findUnique({
             where: {
-                dni: String(data.dni),
+                id: Number(id),
             },
         });
-        if (!findCliente){
-            return res.status(404).json({
-                message:"Cliente no encontrado",
-            });
-        };
-
+        
         const cliente = await Prisma.cliente.update({
             where: { 
-                dni: String(data.dni),
+                id: Number(id),
             },
             data: {
-                
-                nombre: newData.nombre,
-                apellido: newData.apellido,
-                email: newData.email,
-                direccion: newData.direccion,  
-                distrito: newData.distrito,
+                nombre: data.nombre,
+                apellido: data.apellido,
+                email: data.email,
+                direccion: data.direccion,  
+                distrito: data.distrito,
             },
         })
-        console.log("cliente", cliente)
-
+        
         return res.status(201).json({
             message:"Cliente actualizado",
             content: cliente,
