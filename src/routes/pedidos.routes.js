@@ -4,6 +4,6 @@ import { security } from "../utils/inspector.js";
 
 export const pedidosRouter = Router();
 
-pedidosRouter.post("/pedido", crearPedido);
+pedidosRouter.post("/pedido", security, crearPedido);
 pedidosRouter.get("/pedidos", listarPedidos);
 pedidosRouter.get("/mis-pedidos", security, misPedidos);

@@ -1,12 +1,14 @@
 import { Prisma } from "../prisma.js";
 
 export const crearPedido = async (req, res) =>{
+    const { id } = req.user;
     const data = req.body;
     console.log("datos", data);
+    
     try {
-        const pedidos = await Prisma.cabeceraPedido .create({
+        const pedidos = await Prisma.cabeceraPedido.create({
             data: {
-                clienteId: data.clienteId,
+                clienteId : Number(id),
                 fechaEmision: data.fechaEmision,
                 detalles: {
                     create: data.detalles,
@@ -40,7 +42,6 @@ export const crearPedido = async (req, res) =>{
                 }
             }
         });
-
         console.log("pedidos", pedidos);
 
         return res.status(201).json({
@@ -110,8 +111,9 @@ export const misPedidos = async (req, res) => {
                 }
             },
             select : {
+
                 id: true,
-                clienteId: false,
+                clienteId: true,
                 fechaEmision: true,
                 detalles: {
                     select: {
