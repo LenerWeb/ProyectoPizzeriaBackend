@@ -116,7 +116,7 @@ export const actualizarCliente = async(req, res) => {
                 id: Number(id),
             },
         });
-        
+        console.log(findCliente)
         const cliente = await Prisma.cliente.update({
             where: { 
                 id: Number(id),
@@ -144,7 +144,7 @@ export const actualizarCliente = async(req, res) => {
 
 export const eliminarCliente = async(req, res) => {
     const { id } = req.user;
-    const data = req.body;
+    
     try {
         const buscarCliente = await Prisma.cliente.findUnique({
             where: {
