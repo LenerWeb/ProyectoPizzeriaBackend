@@ -143,17 +143,18 @@ export const actualizarCliente = async(req, res) => {
 }
 
 export const eliminarCliente = async(req, res) => {
+    const { id } = req.user;
     const data = req.body;
     try {
         const buscarCliente = await Prisma.cliente.findUnique({
             where: {
-                dni: String(data.dni),
+                id: Number(id),
             },
         });
         console.log("buscar", buscarCliente)
         const cliente = await Prisma.cliente.delete({
             where: {
-                dni: String(data.dni),
+                id: Number(id),
             },
         });
         console.log("eliminar", cliente)
